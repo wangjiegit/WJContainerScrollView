@@ -10,7 +10,7 @@
 #import "WJContainerScrollView.h"
 #import "TableViewController.h"
 
-@interface ViewController ()<WJContainerScrollViewDataSource>
+@interface ViewController ()<WJContainerScrollViewDataSource, UIScrollViewDelegate>
 
 @property (nonatomic, strong) WJContainerScrollView *containerView;
 
@@ -39,6 +39,7 @@
 
 - (void)addContentView {
     UIButton *btn1 = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    btn1.selected = YES;
     btn1.frame = CGRectMake(0, 0, self.view.frame.size.width / 2.0, 44);
     [btn1 setTitle:@"未选中" forState:(UIControlStateNormal)];
     [btn1 setTitle:@"已选中" forState:(UIControlStateSelected)];
@@ -69,6 +70,20 @@
     self.btn1.selected = (btn == self.btn1);
     self.currentVC = (btn==self.btn1?self.listViews.firstObject:self.listViews.lastObject);
     [self.scrollView setContentOffset:CGPointMake(btn==self.btn1?0:self.scrollView.frame.size.width, 0) animated:YES];
+}
+
+#pragma mark UIScrollViewDelegate
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.x / scrollView.frame.size.width == 0) {
+        self.currentVC = self.listViews.firstObject;
+        self.btn1.selected = YES;
+        self.btn2.selected = NO;
+    } else {
+        self.currentVC = self.listViews.lastObject;
+        self.btn1.selected = NO;
+        self.btn2.selected = YES;
+    }
 }
 
 #pragma mark WJContainerScrollViewDataSource
@@ -124,6 +139,8 @@
         _scrollView.contentSize = CGSizeMake(self.view.frame.size.width * 2, self.view.frame.size.height- 44);
         _scrollView.scrollEnabled = YES;
         _scrollView.pagingEnabled = YES;
+        _scrollView.delegate = self;
+        _scrollView.showsHorizontalScrollIndicator = NO;
     }
     return _scrollView;
 }
