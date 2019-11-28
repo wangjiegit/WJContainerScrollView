@@ -27,6 +27,15 @@ NS_ASSUME_NONNULL_BEGIN
    需要调用该代理方法传入callback
 
 @param callback `scrollViewDidScroll`回调时调用的callback
+ 
+ - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+     !self.scrollCallback ? : self.scrollCallback(scrollView);
+ }
+
+ - (void)listViewDidScrollCallback:(void (^)(UIScrollView *))callback {
+     self.scrollCallback = callback;
+ }
+ 
 */
 - (void)listViewDidScrollCallback:(void (^)(UIScrollView *scrollView))callback;
 
