@@ -20,10 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView = [[UITableView alloc] init];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
+    self.view.backgroundColor = [UIColor colorWithRed:((arc4random() % 255) + 1)/255.0 green:((arc4random() % 255) + 1) / 255.0 blue:(arc4random() % 255) + 1 alpha:1];
     [self.view addSubview:self.tableView];
     // Do any additional setup after loading the view.
 }
@@ -48,6 +45,16 @@
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     self.tableView.frame = self.view.bounds;
+}
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] init];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
+    }
+    return _tableView;
 }
 
 - (UIScrollView *)listScrollView {

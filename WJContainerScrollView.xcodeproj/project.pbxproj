@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A0D0B59923953F30001C27D3 /* WJUICategory.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D0B59823953F30001C27D3 /* WJUICategory.m */; };
+		A0D0B59D23953F3B001C27D3 /* WJSwitchPagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D0B59B23953F3B001C27D3 /* WJSwitchPagesView.m */; };
+		A0D0B5A023953F48001C27D3 /* PageBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D0B59E23953F47001C27D3 /* PageBarItem.m */; };
 		A0D88C02238D00E00035A8D8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D88C01238D00E00035A8D8 /* AppDelegate.m */; };
 		A0D88C08238D00E00035A8D8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D88C07238D00E00035A8D8 /* ViewController.m */; };
 		A0D88C0B238D00E00035A8D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0D88C09238D00E00035A8D8 /* Main.storyboard */; };
@@ -18,6 +21,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A0D0B59723953F30001C27D3 /* WJUICategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WJUICategory.h; sourceTree = "<group>"; };
+		A0D0B59823953F30001C27D3 /* WJUICategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WJUICategory.m; sourceTree = "<group>"; };
+		A0D0B59A23953F3A001C27D3 /* WJSwitchPagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WJSwitchPagesView.h; sourceTree = "<group>"; };
+		A0D0B59B23953F3B001C27D3 /* WJSwitchPagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WJSwitchPagesView.m; sourceTree = "<group>"; };
+		A0D0B59C23953F3B001C27D3 /* WJSwitchPagesBarItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WJSwitchPagesBarItemProtocol.h; sourceTree = "<group>"; };
+		A0D0B59E23953F47001C27D3 /* PageBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageBarItem.m; sourceTree = "<group>"; };
+		A0D0B59F23953F48001C27D3 /* PageBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageBarItem.h; sourceTree = "<group>"; };
 		A0D88BFD238D00E00035A8D8 /* WJContainerScrollView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WJContainerScrollView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0D88C00238D00E00035A8D8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A0D88C01238D00E00035A8D8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -79,6 +89,13 @@
 				A0D88C11238D00E10035A8D8 /* Info.plist */,
 				A0D88C12238D00E10035A8D8 /* main.m */,
 				A0D88C20238D02A20035A8D8 /* PrefixHeader.pch */,
+				A0D0B59723953F30001C27D3 /* WJUICategory.h */,
+				A0D0B59823953F30001C27D3 /* WJUICategory.m */,
+				A0D0B59F23953F48001C27D3 /* PageBarItem.h */,
+				A0D0B59E23953F47001C27D3 /* PageBarItem.m */,
+				A0D0B59C23953F3B001C27D3 /* WJSwitchPagesBarItemProtocol.h */,
+				A0D0B59A23953F3A001C27D3 /* WJSwitchPagesView.h */,
+				A0D0B59B23953F3B001C27D3 /* WJSwitchPagesView.m */,
 			);
 			path = WJContainerScrollView;
 			sourceTree = "<group>";
@@ -153,6 +170,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0D0B59923953F30001C27D3 /* WJUICategory.m in Sources */,
+				A0D0B5A023953F48001C27D3 /* PageBarItem.m in Sources */,
+				A0D0B59D23953F3B001C27D3 /* WJSwitchPagesView.m in Sources */,
 				A0D88C1B238D01180035A8D8 /* WJContainerScrollView.m in Sources */,
 				A0D88C23238D2E7D0035A8D8 /* TableViewController.m in Sources */,
 				A0D88C08238D00E00035A8D8 /* ViewController.m in Sources */,

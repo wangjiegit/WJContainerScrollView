@@ -9,22 +9,20 @@
 #import "ViewController.h"
 #import "WJContainerScrollView.h"
 #import "TableViewController.h"
+#import "WJSwitchPagesView.h"
+#import "PageBarItem.h"
 
-@interface ViewController ()<WJContainerScrollViewDataSource, UIScrollViewDelegate>
+@interface ViewController ()<WJContainerScrollViewDataSource, UIScrollViewDelegate, WJSwitchPagesBarDataSource>
 
 @property (nonatomic, strong) WJContainerScrollView *containerView;
 
-@property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) WJSwitchPagesView *switchPagesView;
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 
-@property (nonatomic, copy) NSArray *listViews;
+@property (nonatomic, copy) NSArray *titleArray;
 
-@property (nonatomic, strong) UIButton *btn1;
-
-@property (nonatomic, strong) UIButton *btn2;
-
-@property (nonatomic, strong) id<WJContainerListViewDelegate> currentVC;
+@property (nonatomic, strong) NSMutableArray *vcList;
 
 @end
 
@@ -32,59 +30,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor redColor];
     [self.view addSubview:self.containerView];
     [self addContentView];
 }
 
 - (void)addContentView {
-    UIButton *btn1 = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    btn1.selected = YES;
-    btn1.frame = CGRectMake(0, 0, self.view.frame.size.width / 2.0, 44);
-    [btn1 setTitle:@"未选中" forState:(UIControlStateNormal)];
-    [btn1 setTitle:@"已选中" forState:(UIControlStateSelected)];
-    [btn1 addTarget:self action:@selector(click:) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.contentView addSubview:btn1];
-    
-    UIButton *btn2 = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    btn2.frame = CGRectMake(self.view.frame.size.width / 2.0, 0, self.view.frame.size.width / 2.0, 44);
-    [btn2 setTitle:@"未选中" forState:(UIControlStateNormal)];
-    [btn2 setTitle:@"已选中" forState:(UIControlStateSelected)];
-    [btn2 addTarget:self action:@selector(click:) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.contentView addSubview:btn2];
-    self.btn1 = btn1;
-    self.btn2 = btn2;
-    
-    for (int i = 0; i<self.listViews.count; i++) {
-        UIViewController *vc = self.listViews[i];
-        vc.view.frame = CGRectMake(self.scrollView.frame.size.width *i, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
-        [self.scrollView addSubview:vc.view];
-    }
-    self.currentVC = self.listViews.firstObject;
-    [self.contentView addSubview:self.scrollView];
+   self.vcList = [NSMutableArray array];
+   for (int i = 0; i < self.titleArray.count; i++) {
+       TableViewController *vc = [TableViewController new];
+       [self.vcList addObject:vc];
+   }
+   self.switchPagesView.controllers = self.vcList;
+   [self.switchPagesView completeWithSelectedIndex:0];
     [self.containerView reloadData];
-}
-
-- (void)click:(UIButton *)btn {
-    self.btn2.selected = (btn == self.btn2);
-    self.btn1.selected = (btn == self.btn1);
-    self.currentVC = (btn==self.btn1?self.listViews.firstObject:self.listViews.lastObject);
-    [self.scrollView setContentOffset:CGPointMake(btn==self.btn1?0:self.scrollView.frame.size.width, 0) animated:YES];
 }
 
 #pragma mark UIScrollViewDelegate
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (scrollView.contentOffset.x / scrollView.frame.size.width == 0) {
-        self.currentVC = self.listViews.firstObject;
-        self.btn1.selected = YES;
-        self.btn2.selected = NO;
-    } else {
-        self.currentVC = self.listViews.lastObject;
-        self.btn1.selected = NO;
-        self.btn2.selected = YES;
-    }
-}
 
 #pragma mark WJContainerScrollViewDataSource
 
@@ -100,28 +62,50 @@
 }
 
 - (UIView *)listContainerViewInContainerScrollView:(WJContainerScrollView *)containerScrollView {
-    return self.contentView;
+    return self.switchPagesView;
 }
 
 - (id<WJContainerListViewDelegate>)currentListViewInContainerScrollView:(WJContainerScrollView *)containerScrollView {
-    return self.currentVC;
+    if ([self.switchPagesView.currentController conformsToProtocol:@protocol(WJContainerListViewDelegate)]) {
+        id<WJContainerListViewDelegate> delegate = self.switchPagesView.currentController;
+        return delegate;
+    }
+    return nil;
+    
 }
 
 - (NSArray<id<WJContainerListViewDelegate>> *)listViewsInContainerScrollView:(WJContainerScrollView *)containerScrollView {
-    return self.listViews;
+    return self.vcList;
+}
+
+#pragma mark WJSwitchPagesBarDataSource
+
+- (UIView *)indexViewInswitchPagesBar:(WJSwitchPagesBar *)switchPagesBar {
+    UIView *view = [[UIView alloc] init];
+    view.frame = CGRectMake(0, switchPagesBar.height - 3, 20, 3);
+    view.backgroundColor = [UIColor yellowColor];
+    return view;
+}
+
+//每个item的大小
+- (CGFloat)switchPagesBar:(WJSwitchPagesBar *)switchPagesBar widthForIndex:(NSUInteger)index {
+    return [PageBarItem getWidthByText:self.titleArray[index] height:switchPagesBar.height];
+}
+
+//item总数
+- (NSInteger)numberOfSwitchPagesBarItem:(WJSwitchPagesBar *)switchPagesBar {
+    return self.titleArray.count;
+}
+
+//item
+- (UIView<WJSwitchPagesBarItemProtocol> *)switchPagesBar:(WJSwitchPagesBar *)switchPagesBar itemForIndex:(NSUInteger)index {
+    PageBarItem *item = [[PageBarItem alloc] init];
+    item.textLabel.text = self.titleArray[index];
+    return item;
 }
 
 
 #pragma mark Getter
-
-- (UIView *)contentView {
-    if (!_contentView) {
-        _contentView = [[UIView alloc] init];
-        _contentView.frame = self.view.bounds;
-        _contentView.backgroundColor = [UIColor grayColor];
-    }
-    return _contentView;
-}
 
 - (WJContainerScrollView *)containerView {
     if (!_containerView) {
@@ -145,16 +129,21 @@
     return _scrollView;
 }
 
-- (NSArray *)listViews {
-    if (!_listViews) {
-        TableViewController *vc1 = [[TableViewController alloc] init];
-        vc1.hidesBottomBarWhenPushed = YES;
-        
-        TableViewController *vc2 = [[TableViewController alloc] init];
-        vc2.hidesBottomBarWhenPushed = YES;
-        _listViews = @[vc1, vc2];
+- (WJSwitchPagesView *)switchPagesView {
+    if (!_switchPagesView) {
+        _switchPagesView = [[WJSwitchPagesView alloc] init];
+        _switchPagesView.frame = self.view.bounds;
+        _switchPagesView.barHeight = 40;
+        _switchPagesView.dataSource = self;
     }
-    return _listViews;
+    return _switchPagesView;
+}
+
+- (NSArray *)titleArray {
+    if (!_titleArray) {
+        _titleArray = @[@"本地", @"浙江", @"绍兴", @"杭州", @"宁波", @"衢州", @"温州", @"金华", @"舟山", @"嘉兴", @"湖州"];
+    }
+    return _titleArray;
 }
 
 @end
