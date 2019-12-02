@@ -66,12 +66,8 @@
 }
 
 - (id<WJContainerListViewDelegate>)currentListViewInContainerScrollView:(WJContainerScrollView *)containerScrollView {
-    if ([self.switchPagesView.currentController conformsToProtocol:@protocol(WJContainerListViewDelegate)]) {
-        id<WJContainerListViewDelegate> delegate = self.switchPagesView.currentController;
-        return delegate;
-    }
-    return nil;
-    
+    TableViewController *vc = (TableViewController *)self.switchPagesView.currentController;
+    return vc;
 }
 
 - (NSArray<id<WJContainerListViewDelegate>> *)listViewsInContainerScrollView:(WJContainerScrollView *)containerScrollView {
