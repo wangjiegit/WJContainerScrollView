@@ -137,6 +137,7 @@
     }
     CGFloat contentOffsetY = scrollView.contentOffset.y;
     CGFloat headerHeight = self.scrollView.headerView.frame.size.height - [self.dataSource contentHoverEdgeTop];
+    if (headerHeight == 0) headerHeight = CGFLOAT_MIN;
     if (contentOffsetY >= headerHeight) {
         scrollView.wj_canScroll = YES;
         scrollView.contentOffset = CGPointMake(0, headerHeight);
