@@ -137,7 +137,7 @@
 
 - (NSArray *)titleArray {
     if (!_titleArray) {
-        _titleArray = @[@"本地", @"浙江", @"绍兴", @"杭州", @"宁波", @"衢州", @"温州", @"金华", @"舟山", @"嘉兴", @"湖州"];
+        _titleArray = @[@"本地", @"浙江"];
     }
     return _titleArray;
 }
