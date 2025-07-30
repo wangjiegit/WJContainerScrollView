@@ -81,14 +81,12 @@ typedef NS_ENUM(NSInteger, WJSwitchPagesDirection) {
 
 //判断展示左边的视图还是右边的视图
 - (void)scrollViewPan:(UIPanGestureRecognizer *)pgr {
-    if (pgr.state == UIGestureRecognizerStateBegan) {
-        CGPoint velocity = [pgr velocityInView:pgr.view];
-        if (velocity.x == 0) return;
-        if (velocity.x > 0) {
-            self.direction = WJSwitchPagesDirectionLeft;
-        } else {
-            self.direction = WJSwitchPagesDirectionRight;
-        }
+    CGPoint velocity = [pgr velocityInView:pgr.view];
+    if (velocity.x == 0) return;
+    if (velocity.x > 0) {
+        self.direction = WJSwitchPagesDirectionLeft;
+    } else {
+        self.direction = WJSwitchPagesDirectionRight;
     }
 }
 
